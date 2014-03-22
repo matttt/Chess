@@ -41,14 +41,26 @@ describe('Chess', function(){
       var square2 = game.board.getSquare([0,0]);
 
       assert.deepEqual(square1.pos, [0, 1]);
-      assert.deepEqual(square1.getAdj(Square.UP), [0, 0]);
-      assert.deepEqual(square1.getAdj(Square.UP), square2.pos)
+      assert.deepEqual(square1.getAdjPos(Square.UP), [0, 0]);
+      assert.deepEqual(square1.getAdjPos(Square.UP), square2.pos)
     });
     it('should find the square up and to the right of [5,6]', function(){
       var square1 = game.board.getSquare([5,6]);
       var square2 = game.board.getSquare([6,5]);
 
-      assert.deepEqual(square1.getAdj(Square.UP_RIGHT), square2.pos);
+      assert.deepEqual(square1.getAdjPos(Square.UP_RIGHT), square2.pos);
+    });
+    it('should find the distance between two squares', function(){
+      var square1 = game.board.getSquare([2,2]);
+      var square2 = game.board.getSquare([2,5]);
+      
+      assert(square1.findDistanceTo(square2) === 3)
+    });
+    it('should find the diagonal distance between two squares', function(){
+      var square1 = game.board.getSquare([1,0]);
+      var square2 = game.board.getSquare([3,2]);
+      
+      assert(square1.findDistanceTo(square2) === 2)
     });
   })
   
