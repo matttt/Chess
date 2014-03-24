@@ -41,27 +41,27 @@ describe('Chess', function(){
       var square2 = game.board.getSquare([0,0]);
 
       assert.deepEqual(square1.pos, [0, 1]);
-      assert.deepEqual(square1.getAdjPos(Square.UP), [0, 0]);
-      assert.deepEqual(square1.getAdjPos(Square.UP), square2.pos)
+      assert.deepEqual(square1.getAdj(Square.UP).pos, [0, 0]);
+      assert.deepEqual(square1.getAdj(Square.UP), square2)
     });
     it('should find the square up and to the right of [5,6]', function(){
       var square1 = game.board.getSquare([5,6]);
       var square2 = game.board.getSquare([6,5]);
 
-      assert.deepEqual(square1.getAdjPos(Square.UP_RIGHT), square2.pos);
+      assert.deepEqual(square1.getAdj(Square.UP_RIGHT), square2);
     });
-    it('should find the distance between two squares', function(){
-      var square1 = game.board.getSquare([2,2]);
-      var square2 = game.board.getSquare([2,5]);
+    it('should get the direction of another square', function(){
+      var square1 = game.board.getSquare([0,0]);
+      var square2 = game.board.getSquare([5,0]);
       
-      assert(square1.findDistanceTo(square2) === 3)
-    });
-    it('should find the diagonal distance between two squares', function(){
-      var square1 = game.board.getSquare([1,0]);
-      var square2 = game.board.getSquare([3,2]);
+      assert.equal(square1.getDirectionOf(square2), Square.RIGHT);
+    })
+    it('should get the direction of another square', function(){
+      var square1 = game.board.getSquare([0,0]);
+      var square2 = game.board.getSquare([5,5]);
       
-      assert(square1.findDistanceTo(square2) === 2)
-    });
+      assert.equal(square1.getDirectionOf(square2), Square.DOWN_RIGHT);
+    })
   })
   
   describe('piece logic and movement', function(){
@@ -86,11 +86,11 @@ describe('Chess', function(){
         assert(game.board.getSquare([i,1]).piece instanceof Pawn)
       };
     });
-    it('should move the queen to square (4,4)', function(){
+    it('should move the queen to square (7,3)', function(){
       game.board.createPieces(0, Player.WHITE);
       
       var queenSquare = game.board.getSquare([4,0]);
-      var destSquare = game.board.getSquare([4,4]);
+      var destSquare = game.board.getSquare([7,3]);
       
       game.board.movePiece(queenSquare, destSquare);
       
@@ -120,17 +120,24 @@ describe('Chess', function(){
       
       assert(destSquare.piece === null);
       assert(rookSquare.piece instanceof Rook);
-    })
-    it('should do a diagonal move with the queen', function(){
-      game.board.createPieces(0, Player.WHITE);
-      
-      var queenSquare = game.board.getSquare([4,0]);
-      var destSquare = game.board.getSquare([1,3]);
-      
-      game.board.movePiece(queenSquare, destSquare);
-      
-      assert(destSquare.piece instanceof Queen);
-      assert(queenSquare.piece === null);
     });
+    it('should create 2 rows of pieces, and attempt to make an illegal move through another two pieces', function(){
+      game.board.createPieces(0, Player.WHITE);
+      game.board.createPieces(2, Player.BLACK);
+      
+      var bishopSquare = game.board.getSquare([2,0]);
+      var destSquare = game.board.getSquare([7,5]);
+      
+      game.board.movePiece(bishopSquare, destSquare);
+      
+      assert(bishopSquare.piece instanceof Bishop);
+    });
+    it('should create two rows of pieces, and black should take whites rook', function(){
+      game.board.createPieces(0, Player.BLACK);
+      game.board.createPieces(7, Player.WHITE);
+      
+      var blackRook = game.board.getSquare([0,0]);
+      var whiteRook = game.board.getSquare([0,7]);
+    })
   })
 })
