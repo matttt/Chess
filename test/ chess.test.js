@@ -217,6 +217,25 @@ describe('Chess', function(){
       
       assert.equal(whiteMove1.piece, null);
       assert.deepEqual(game.board.getPiecesTakenBy(Player.WHITE)[0], blackPawn)
+    });
+    it('should test king movement', function(){
+      var whiteKingSquare = game.board.getChessSquare('D1');
+      var whitePawn1Square = game.board.getChessSquare('D2');
+      var whitePawn2Square = game.board.getChessSquare('C2');
+      
+      whiteKing = whiteKingSquare.piece;
+      
+      var whiteMove1 = game.board.getChessSquare('D4');
+      var whiteMove2 = game.board.getChessSquare('D2');
+      var whiteMove3 = game.board.getChessSquare('C4');
+      var whiteMove4 = game.board.getChessSquare('C3');
+      
+      game.board.movePiece(whitePawn1Square, whiteMove1);
+      game.board.movePiece(whiteKingSquare, whiteMove2);
+      game.board.movePiece(whitePawn2Square, whiteMove3);
+      game.board.movePiece(whiteMove2, whiteMove4);
+      
+      assert.deepEqual(game.board.getChessSquare('C3').piece, )
     })
   })
 })
