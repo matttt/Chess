@@ -18,6 +18,7 @@ describe('Chess', function(){
     game = new Chess();
     game.main();
     game.startNewGame();
+    game.board.excuseTurns = true;
   })
   
   describe('player and board creation', function(){
@@ -167,7 +168,7 @@ describe('Chess', function(){
       assert.deepEqual(game.board.getPiecesTakenBy(Player.WHITE)[0], blackKnightPiece); //make sure piece taken is the same as init piece
     })
   })
-  describe('full game simulation', function(){
+  describe('full game simulation minus turns and check/mate', function(){
       beforeEach(function () {
             game.board.createPieces(0, Player.BLACK);
             game.board.createPawns(1, Player.BLACK);
@@ -229,13 +230,17 @@ describe('Chess', function(){
       var whiteMove2 = game.board.getChessSquare('D2');
       var whiteMove3 = game.board.getChessSquare('C4');
       var whiteMove4 = game.board.getChessSquare('C3');
+      var invalidWhiteMove = game.board.getChessSquare('A3');
       
       game.board.movePiece(whitePawn1Square, whiteMove1);
       game.board.movePiece(whiteKingSquare, whiteMove2);
       game.board.movePiece(whitePawn2Square, whiteMove3);
       game.board.movePiece(whiteMove2, whiteMove4);
+      game.board.movePiece(whiteMove4, invalidWhiteMove);
       
-      assert.deepEqual(game.board.getChessSquare('C3').piece, )
+      whiteMove4.piece.player = Player.BLACK;
+      
+      assert.deepEqual(game.board.getChessSquare('C3').piece, whiteKing);
     })
   })
 })
