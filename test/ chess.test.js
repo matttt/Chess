@@ -55,13 +55,13 @@ describe('Chess', function(){
       var square1 = game.board.getSquare([0,0]);
       var square2 = game.board.getSquare([5,0]);
       
-      assert.equal(square1.getDirectionOf(square2), Square.RIGHT);
+      assert.equal(square1.getDirectionTo(square2), Square.RIGHT);
     })
     it('should get the direction of another square', function(){
       var square1 = game.board.getSquare([0,0]);
       var square2 = game.board.getSquare([5,5]);
       
-      assert.equal(square1.getDirectionOf(square2), Square.DOWN_RIGHT);
+      assert.equal(square1.getDirectionTo(square2), Square.DOWN_RIGHT);
     })
     it('should use the getChessSquare function to get square 0,7', function(){
       square = game.board.getChessSquare('A1');
@@ -176,6 +176,10 @@ describe('Chess', function(){
             game.board.createPawns(6, Player.WHITE);
             game.board.createPieces(7, Player.WHITE);
       });
+      it('should test the players king attrs', function(){
+        assert.deepEqual(game.board.players[Player.WHITE].king, game.board.getChessSquare('D1').piece);
+        assert.deepEqual(game.board.players[Player.BLACK].king, game.board.getChessSquare('D8').piece);
+      })
       it('should test knight movement and piece taking', function(){
         var whiteKnightSquare = game.board.getChessSquare('B1');
         var blackPawnSquare = game.board.getChessSquare('C7');
