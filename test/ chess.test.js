@@ -167,6 +167,18 @@ describe('Chess', function(){
       assert.equal(intermediateMove.piece, null)
       assert.deepEqual(game.board.getPiecesTakenBy(Player.WHITE)[0], blackKnightPiece); //make sure piece taken is the same as init piece
     })
+    it('should test the clear path function', function(){
+      game.board.createPieces(0, Player.BLACK);
+      game.board.createPieces(7, Player.WHITE);
+      game.board.createPieces(6, Player.WHITE);
+      
+      var whiteRook = game.board.getChessSquare('A2');
+      var blackRook = game.board.getChessSquare('A8');
+      
+      game.board.movePiece(blackRook, whiteRook);
+      
+      assert.equal(whiteRook.player, Player.BLACK)
+    })
   })
   describe('full game simulation minus turns and check/mate', function(){
       beforeEach(function () {
