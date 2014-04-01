@@ -103,30 +103,6 @@ describe('Chess', function(){
       assert(destSquare.piece instanceof Queen);
       assert(queenSquare.piece === null);
     })
-    it('should attempt to make an invalid move', function(){
-      game.board.createPieces(0, Player.WHITE);
-      
-      var queenSquare = game.board.getSquare([4,0]);
-      var destSquare = game.board.getSquare([5,4]);
-      
-      game.board.movePiece(queenSquare, destSquare);
-      
-      assert(destSquare.piece === null);
-      assert(queenSquare.piece instanceof Queen);
-    })
-    it('should try to move a rook out of bounds', function(){
-      game.board.squares.push(new Square([-1,4]))
-      
-      game.board.createPieces(0, Player.WHITE);
-      
-      var rookSquare = game.board.getSquare([0,0]);
-      var destSquare = game.board.getSquare([-1,4]);
-      
-      game.board.movePiece(rookSquare, destSquare);
-      
-      assert(destSquare.piece === null);
-      assert(rookSquare.piece instanceof Rook);
-    })
     it('should create 2 rows of pieces, and attempt to make an illegal move through another two pieces', function(){
       game.board.createPieces(0, Player.WHITE);
       game.board.createPieces(2, Player.BLACK);
@@ -179,6 +155,34 @@ describe('Chess', function(){
       
       assert.equal(whiteRook.player, Player.BLACK)
     })
+     it('should test the clear path function for pawns', function(){
+        game.board.createPawns(0, Player.WHITE);
+        game.board.createPawns(1, Player.BLACK);
+        
+        var whitePawn = game.board.getChessSquare('A1');
+        var blackPawn = game.board.getChessSquare('A2');
+        
+        var whitePawnPiece = whitePawn.piece;
+        
+        var move1Square = game.board.getChessSquare('A3')
+
+        game.board.movePiece(whitePawn, move1Square);
+
+        assert.deepEqual(whitePawn.piece, whitePawnPiece)
+      })
+      it('should also test the clear path function for pawns', function(){
+         game.board.createPawns(0, Player.WHITE);
+
+         var whitePawn = game.board.getChessSquare('A1');
+
+         var whitePawnPiece =  whitePawn.piece;
+
+         var move1Square = game.board.getChessSquare('A3');
+
+         game.board.movePiece(whitePawn, move1Square);
+
+         assert.deepEqual(move1Square.piece, whitePawnPiece)
+       })
   })
   describe('full game simulation minus turns and check/mate', function(){
       beforeEach(function () {
