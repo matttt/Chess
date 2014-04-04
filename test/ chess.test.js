@@ -2,7 +2,8 @@ var assert = require('assert');
 var Chess = require('../lib/chess');
 var Square = require('../lib/square');
 var Board = require('../lib/board');
-var Player = require('../lib/player')
+var Player = require('../lib/player');
+var Checkmate = require('../lib/checkmate')
 //piece deps
 var Queen = require('../lib/pieces/queen');
 var King = require('../lib/pieces/king');
@@ -172,17 +173,49 @@ describe('Chess', function(){
       })
       it('should also test the clear path function for pawns', function(){
          game.board.createPawns(0, Player.WHITE);
+         game.board.createPawns(1, Player.WHITE);
+         
 
          var whitePawn = game.board.getChessSquare('A1');
 
          var whitePawnPiece =  whitePawn.piece;
 
-         var move1Square = game.board.getChessSquare('A3');
 
-         game.board.movePiece(whitePawn, move1Square);
+         game.board.movePiece(whitePawn, 'A3');
 
-         assert.deepEqual(move1Square.piece, whitePawnPiece)
+
+         assert.deepEqual(game.board.getChessSquare('A3').piece, null)
        })
+  })
+  describe('check and checkmate system', function(){
+    beforeEach(function(){
+      game.board.excuseTurns = false;
+    })
+    it('should test the check function with a rook trying to kill a king', function(){
+      game.board.createPieces(0, Player.BLACK);
+      game.board.createPieces(7, Player.WHITE);
+      
+      var whiteKing = game.board.getChessSquare('E1');
+      var whiteRook = game.board.getChessSquare('H1');
+      var blackRook = game.board.getChessSquare('A8');
+      
+      var whiteRookPiece = whiteRook.piece;
+      
+      game.board.movePiece(whiteRook, 'H2'); //white
+      
+      game.board.movePiece(blackRook, 'A7'); //black
+      
+      game.board.movePiece('H2', whiteRook); //white
+      
+      game.board.movePiece('A7', 'E7'); //black
+      
+      game.board.movePiece(whiteRook, 'H2'); //white
+      
+      game.board.movePiece('E7', whiteKing); //black
+      
+      assert.deepEqual(game.board.getChessSquare('H2').piece, whiteRookPiece)
+      assert.equal(game.board.checkmate.isCheck(), true)
+    })
   })
   describe('full game simulation minus turns and check/mate', function(){
       beforeEach(function () {
