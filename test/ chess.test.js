@@ -105,11 +105,11 @@ describe('Chess', function(){
       assert(queenSquare.piece === null);
     })
     it('should create 2 rows of pieces, and attempt to make an illegal move through another two pieces', function(){
-      game.board.createPieces(0, Player.WHITE);
-      game.board.createPieces(2, Player.BLACK);
+      game.board.createPieces(7, Player.WHITE);
+      game.board.createPieces(6, Player.BLACK);
       
-      var bishopSquare = game.board.getSquare([2,0]);
-      var destSquare = game.board.getSquare([7,5]);
+      var bishopSquare = game.board.getSquare([2,7]);
+      var destSquare = game.board.getSquare([7,2]);
       
       game.board.movePiece(bishopSquare, destSquare);
       
@@ -190,6 +190,13 @@ describe('Chess', function(){
   describe('check and checkmate system', function(){
     beforeEach(function(){
       game.board.excuseTurns = false;
+    })
+    it('should test the getKings functions', function(){
+      game.board.createPieces(0, Player.BLACK);
+      game.board.createPieces(7, Player.WHITE);
+      
+      assert(game.board.players[Player.WHITE].king.player === Player.WHITE);
+      assert(game.board.getKings()[0].player === Player.WHITE);
     })
     it('should test the check function with a rook trying to kill a king', function(){
       game.board.createPieces(0, Player.BLACK);
