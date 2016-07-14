@@ -186,6 +186,21 @@ describe('Chess', function(){
 
          assert.deepEqual(game.board.getChessSquare('A3').piece, null)
        })
+       it('should log the game board', function () {
+         game.board.createPawns(0, Player.BLACK);
+         game.board.createPawns(7, Player.WHITE);
+         game.board.createPieces(2, Player.BLACK);
+
+         var whitePawn = game.board.getChessSquare('A1');
+         game.board.movePiece(whitePawn, 'A3');
+
+         var rows = game.board.getVisualBoardLayout()
+
+         rows.forEach(function (row) {
+           console.log(row);
+         })
+
+       })
   })
   describe('check and checkmate system', function(){
     beforeEach(function(){
