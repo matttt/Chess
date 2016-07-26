@@ -1,0 +1,27 @@
+{
+  "name": "chessengine",
+  "version": "1.0.0",
+  "description": "Cchess move validator in node",
+  "main": "lib/chess.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matttt/Chess.git"
+  },
+  "keywords": [
+    "chess",
+    "cool",
+    "hax"
+  ],
+  "author": "Matthew Martori",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matttt/Chess/issues"
+  },
+  "homepage": "https://github.com/matttt/Chess#readme"
+}
